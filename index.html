@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaikom Football League — Player Auction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #F5C842;
+            --gold-dark: #C49A10;
+            --green: #1A6B3A;
+            --green-light: #22883F;
+            --green-dark: #0D3D22;
+            --cream: #FDF8EE;
+            --dark: #0A0F0D;
+            --red: #C0392B;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background-color: var(--dark);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── PITCH BACKGROUND ── */
+        .pitch-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 50%, rgba(26,107,58,0.35) 0%, transparent 70%),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 58px,
+                    rgba(255,255,255,0.03) 58px,
+                    rgba(255,255,255,0.03) 60px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 58px,
+                    rgba(255,255,255,0.02) 58px,
+                    rgba(255,255,255,0.02) 60px
+                ),
+                linear-gradient(160deg, #060e08 0%, #0d2015 40%, #060e08 100%);
+        }
+
+        .pitch-circles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+            border-bottom: 1px solid rgba(245,200,66,0.15);
+        }
+
+        .league-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+        }
+
+        .badge-line {
+            width: 50px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .league-badge span {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            letter-spacing: 2px;
+            color: #fff;
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(245,200,66,0.3);
+        }
+
+        header h1 span {
+            color: var(--gold);
+        }
+
+        .header-sub {
+            margin-top: 0.5rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase;
+        }
+
+        /* ── MAIN STAGE ── */
+        .stage {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem 2rem;
+            gap: 3rem;
+        }
+
+        /* ── NAV ARROWS ── */
+        .nav-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(245,200,66,0.3);
+            color: var(--gold);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: var(--dark);
+            border-color: var(--gold);
+            transform: scale(1.08);
+        }
+
+        .nav-btn:active { transform: scale(0.97); }
+
+        /* ── AUCTION CARD ── */
+        .auction-card {
+            width: 380px;
+            max-width: 90vw;
+            background: rgba(10,15,13,0.6);
+            border: 1px solid rgba(245,200,66,0.25);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        /* corner decorations */
+        .auction-card::before,
+        .auction-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .auction-card::before {
+            top: 8px; left: 8px;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        .auction-card::after {
+            bottom: 8px; right: 8px;
+            border-bottom: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+
+        /* ── CARD TOP BAR ── */
+        .card-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: var(--gold);
+        }
+
+        .card-topbar .lot {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: var(--dark);
+        }
+
+        .card-topbar .league-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: rgba(0,0,0,0.65);
+            text-transform: uppercase;
+        }
+
+        /* ── PHOTO ── */
+        .card-photo {
+            width: 100%;
+            height: 440px;
+            position: relative;
+            overflow: hidden;
+            background: #0d2015;
+        }
+
+        .card-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .auction-card:hover .card-photo img {
+            transform: scale(1.03);
+        }
+
+        /* gradient overlay at bottom of photo */
+        .card-photo::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(8,12,10,0.95) 100%);
+            pointer-events: none;
+        }
+
+        /* player number on photo */
+        .player-number {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            z-index: 3;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1;
+            color: rgba(255,255,255,0.12);
+        }
+
+        /* ── CARD INFO (overlaid on bottom of photo) ── */
+        .card-info {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 4;
+            padding: 1rem 1.2rem 1.1rem;
+        }
+
+        .position-tag {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--dark);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            padding: 3px 10px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .player-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.4rem;
+            letter-spacing: 1px;
+            line-height: 1.05;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+        }
+
+        /* ── CARD BOTTOM BAR ── */
+        .card-bottombar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(245,200,66,0.06);
+            border-top: 1px solid rgba(245,200,66,0.15);
+        }
+
+        .bid-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+        }
+
+        .available-dot {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: #4ade80;
+            text-transform: uppercase;
+        }
+
+        .available-dot::before {
+            content: '';
+            display: block;
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 6px #4ade80;
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ── COUNTER ── */
+        .counter-wrap {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+        }
+
+        .counter-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .counter-dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.3s;
+        }
+
+        .counter-dot.active {
+            background: var(--gold);
+            box-shadow: 0 0 8px rgba(245,200,66,0.6);
+        }
+
+        /* ── LOADING ── */
+        #loading {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            padding: 6rem 1rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .spinner {
+            width: 44px; height: 44px;
+            border: 3px solid rgba(245,200,66,0.15);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ── HIDDEN ── */
+        .hidden { display: none !important; }
+
+        /* ── MOBILE NAV ── */
+        .mobile-nav {
+            display: none;
+            justify-content: center;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 2rem;
+        }
+
+        /* ── FRANCHISE TICKER ── */
+        .franchise-section {
+            position: relative;
+            z-index: 10;
+            padding: 0 0 0.5rem;
+            overflow: hidden;
+        }
+
+        .franchise-label {
+            text-align: center;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .franchise-label .fl {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(245,200,66,0.4));
+        }
+        .franchise-label .fr {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(to left, transparent, rgba(245,200,66,0.4));
+        }
+
+        .franchise-label span {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+        }
+
+        .ticker-track-wrap {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* fade edges */
+        .ticker-track-wrap::before,
+        .ticker-track-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 100px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .ticker-track-wrap::before {
+            left: 0;
+            background: linear-gradient(to right, var(--dark) 0%, transparent 100%);
+        }
+        .ticker-track-wrap::after {
+            right: 0;
+            background: linear-gradient(to left, var(--dark) 0%, transparent 100%);
+        }
+
+        .ticker-track {
+            display: flex;
+            gap: 2.5rem;
+            width: max-content;
+            animation: ticker-scroll 28s linear infinite;
+            padding: 0.5rem 0 1.5rem;
+        }
+
+        .ticker-track:hover { animation-play-state: paused; }
+
+        @keyframes ticker-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .franchise-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            cursor: default;
+            transition: transform 0.3s ease;
+        }
+
+        .franchise-logo:hover { transform: translateY(-4px) scale(1.05); }
+
+        .logo-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(245,200,66,0.25);
+            background: rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            transition: border-color 0.3s ease;
+        }
+
+        .franchise-logo:hover .logo-circle {
+            border-color: rgba(245,200,66,0.7);
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
+            filter: brightness(0.9) saturate(0.85);
+            transition: filter 0.3s ease;
+        }
+
+        .franchise-logo:hover .logo-circle img {
+            filter: brightness(1.1) saturate(1.1);
+        }
+
+        /* placeholder shield for teams without a logo */
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            color: rgba(245,200,66,0.6);
+        }
+
+        .franchise-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            text-align: center;
+            max-width: 80px;
+            line-height: 1.3;
+            transition: color 0.3s;
+        }
+
+        .franchise-logo:hover .franchise-name { color: rgba(245,200,66,0.7); }
+
+        .ticker-divider {
+            width: 1px;
+            height: 40px;
+            background: rgba(245,200,66,0.12);
+            align-self: center;
+            flex-shrink: 0;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(245,200,66,0.08);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.2);
+            text-transform: uppercase;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .stage { flex-direction: column; gap: 1.5rem; padding: 2rem 1rem 1rem; }
+            .nav-btn.desktop { display: none; }
+            .mobile-nav { display: flex; }
+            .auction-card { width: 340px; }
+            .card-photo { height: 380px; }
+        }
+
+        @media (min-width: 641px) {
+            .mobile-nav { display: none !important; }
+        }
+
+        /* ── PITCH SVG ── */
+        .pitch-svg {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(900px, 120vw);
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Decorative pitch background -->
+    <div class="pitch-bg"></div>
+    <svg class="pitch-svg" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#fff" stroke-width="1.5">
+        <rect x="10" y="10" width="780" height="500" rx="2"/>
+        <line x1="400" y1="10" x2="400" y2="510"/>
+        <circle cx="400" cy="260" r="70"/>
+        <circle cx="400" cy="260" r="4" fill="#fff"/>
+        <rect x="10" y="160" width="100" height="200"/>
+        <rect x="690" y="160" width="100" height="200"/>
+        <rect x="10" y="200" width="50" height="120"/>
+        <rect x="740" y="200" width="50" height="120"/>
+        <path d="M400 10 A60 60 0 0 1 400 130" stroke-dasharray="4 3"/>
+        <path d="M400 510 A60 60 0 0 0 400 390" stroke-dasharray="4 3"/>
+    </svg>
+
+    <!-- Header -->
+    <header>
+        <div class="league-badge">
+            <div class="badge-line"></div>
+            <span>Official Player Auction</span>
+            <div class="badge-line"></div>
+        </div>
+        <h1>Vaikom <span>Football</span> League</h1>
+        <p class="header-sub">2025 — Player Roster</p>
+    </header>
+
+    <!-- Loading -->
+    <div id="loading">
+        <div class="spinner"></div>
+        <p class="loading-text">Fetching players…</p>
+    </div>
+
+    <!-- Auction Stage -->
+    <div id="stage" class="stage hidden">
+        <button class="nav-btn desktop" id="prev-btn" onclick="prevPlayer()" aria-label="Previous player">&#10094;</button>
+
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+            <div class="auction-card" id="auction-card">
+                <!-- rendered by JS -->
+            </div>
+            <div class="counter-wrap">
+                <div class="counter">
+                    <div class="counter-dots" id="counter-dots"></div>
+                    <span id="counter-text"></span>
+                </div>
+            </div>
+        </div>
+
+        <button class="nav-btn desktop" id="next-btn" onclick="nextPlayer()" aria-label="Next player">&#10095;</button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobile-nav">
+        <button class="nav-btn" onclick="prevPlayer()" aria-label="Previous player">&#10094;</button>
+        <button class="nav-btn" onclick="nextPlayer()" aria-label="Next player">&#10095;</button>
+    </div>
+
+    <!-- ── FRANCHISE TICKER ── -->
+    <section class="franchise-section" id="franchise-section">
+        <div class="franchise-label">
+            <div class="fl"></div>
+            <span>Participating Franchises</span>
+            <div class="fr"></div>
+        </div>
+        <div class="ticker-track-wrap">
+            <div class="ticker-track" id="ticker-track">
+                <!-- JS fills this -->
+            </div>
+        </div>
+    </section>
+
+    <footer>Vaikom Football League &nbsp;·&nbsp; Player Auction System</footer>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwuVIo2yfWT3oyMVJlDTtue2H46UocVzrMEZ3YQPcfrfmL3aev_yvfUKD-xxfi_tiljpg/exec';
+
+        let players = [];
+        let current = 0;
+        const MAX_DOTS = 10;
+
+        function getImageUrl(url) {
+            if (!url) return '';
+            if (!url.includes('google.com')) return url;
+            const m = url.match(/id=([^&]+)/) || url.match(/\/d\/([^/]+)/);
+            return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w800` : url;
+        }
+
+        function getPosition(p) {
+            for (const k of ["Preferred Playing Position", "Preferred Playing Position ", "Position"]) {
+                if (p[k]) return p[k];
+            }
+            for (const k in p) {
+                if (k.toLowerCase().includes("position")) return p[k];
+            }
+            return "Player";
+        }
+
+        function buildDots(total, active) {
+            const container = document.getElementById('counter-dots');
+            container.innerHTML = '';
+            const show = Math.min(total, MAX_DOTS);
+            for (let i = 0; i < show; i++) {
+                const d = document.createElement('div');
+                d.className = 'counter-dot' + (i === active % show ? ' active' : '');
+                container.appendChild(d);
+            }
+        }
+
+        function render(index) {
+            const card = document.getElementById('auction-card');
+            const p = players[index];
+
+            const name = p["Player Name"] || p.Name || p.PlayerName || "Unknown";
+            const position = getPosition(p);
+            const rawPhoto = p["Player Photo"] || p.Photo || p.PhotoURL || p.Image || '';
+            const photo = getImageUrl(rawPhoto);
+            const lotNum = String(index + 1).padStart(3, '0');
+
+            document.getElementById('counter-text').textContent = `${index + 1} of ${players.length}`;
+            buildDots(players.length, index);
+
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.97) translateY(6px)';
+
+            setTimeout(() => {
+                card.innerHTML = `
+                    <div class="card-topbar">
+                        <span class="lot">Lot #${lotNum}</span>
+                        <span class="league-name">Vaikom Football League</span>
+                    </div>
+                    <div class="card-photo">
+                        <span class="player-number">${lotNum}</span>
+                        <img src="${photo}" alt="${name}"
+                             onerror="this.src='https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=800&q=80'">
+                    </div>
+                    <div class="card-info">
+                        <div class="position-tag">${position}</div>
+                        <div class="player-name">${name}</div>
+                    </div>
+                    <div class="card-bottombar">
+                        <span class="bid-label">Available for Auction</span>
+                        <span class="available-dot">Ready</span>
+                    </div>
+                `;
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1) translateY(0)';
+                card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+            }, 180);
+        }
+
+        function nextPlayer() {
+            current = (current + 1) % players.length;
+            render(current);
+        }
+
+        function prevPlayer() {
+            current = (current - 1 + players.length) % players.length;
+            render(current);
+        }
+
+        // Keyboard nav
+        document.addEventListener('keydown', e => {
+            if (players.length === 0) return;
+            if (e.key === 'ArrowRight') nextPlayer();
+            if (e.key === 'ArrowLeft') prevPlayer();
+        });
+
+        // Touch/swipe
+        let touchStartX = 0;
+        document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 50) { dx < 0 ? nextPlayer() : prevPlayer(); }
+        });
+
+        async function loadPlayers() {
+            try {
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                document.getElementById('loading').classList.add('hidden');
+                if (data && data.length > 0) {
+                    players = data;
+                    document.getElementById('stage').classList.remove('hidden');
+                    document.getElementById('mobile-nav').style.display = 'flex';
+                    render(current);
+                } else {
+                    document.getElementById('loading').classList.remove('hidden');
+                    document.getElementById('loading').innerHTML = '<p class="loading-text">No players found.</p>';
+                }
+            } catch (err) {
+                document.getElementById('loading').classList.remove('hidden');
+                document.getElementById('loading').innerHTML = '<p class="loading-text">Failed to load players.</p>';
+                console.error(err);
+            }
+        }
+
+        // ── FRANCHISE TICKER ──
+        // Replace the logo URLs below with your actual team logo image links.
+        // Each entry: { name: "Team Name", logo: "https://your-logo-url.png" }
+        // If you leave logo as "", a gold initial placeholder is shown instead.
+        const FRANCHISES = [
+            { name: "Alpha Lions",   logo: "images/alpha_lions_fc.jpeg" },
+            { name: "Delta United",  logo: "images/delta_united.jpeg" },
+            { name: "Fc Emirate",    logo: "images/fc_emirate.jpeg" },
+            { name: "Fc Fitwell",  logo: "images/fc_fitwell.jpeg" },
+            { name: "Golden Age",  logo: "images/golden_age.jpeg" },
+            { name: "La Carrington Vaikom",    logo: "images/la_carrington_vaikom.jpeg" },
+            { name: "Rivals Fc Vaikom",   logo: "images/rivals_fc_vaikom.jpeg" },
+            { name: "Riverside Fc",     logo: "images/riverside_fc.jpeg" },
+            { name: "Titans Fc Vaikom",   logo: "images/titans_fc_vaikom.jpeg" },
+        ];
+
+        function buildTicker() {
+            const track = document.getElementById('ticker-track');
+            // Duplicate list so infinite scroll looks seamless
+            const allTeams = [...FRANCHISES, ...FRANCHISES];
+            track.innerHTML = allTeams.map((t, i) => {
+                const initials = t.name.split(' ').map(w => w[0]).join('').slice(0,3).toUpperCase();
+                const inner = t.logo
+                    ? `<img src="${t.logo}" alt="${t.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+                      + `<div class="logo-placeholder" style="display:none">${initials}</div>`
+                    : `<div class="logo-placeholder">${initials}</div>`;
+                const divider = (i < allTeams.length - 1) ? '<div class="ticker-divider"></div>' : '';
+                return `
+                    <div class="franchise-logo" title="${t.name}">
+                        <div class="logo-circle">${inner}</div>
+                        <div class="franchise-name">${t.name}</div>
+                    </div>
+                    ${divider}
+                `;
+            }).join('');
+        }
+
+        buildTicker();
+
+        loadPlayers();
+    </script>
+</body>
+</html>
