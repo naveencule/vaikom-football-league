@@ -10,11 +10,7 @@
             --gold: #F5C842;
             --gold-dark: #C49A10;
             --green: #1A6B3A;
-            --green-light: #22883F;
-            --green-dark: #0D3D22;
-            --cream: #FDF8EE;
             --dark: #0A0F0D;
-            --red: #C0392B;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,99 +23,160 @@
             overflow-x: hidden;
         }
 
-        /* ── PITCH BACKGROUND ── */
+        /* ── BACKGROUND ── */
         .pitch-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
+            position: fixed; inset: 0; z-index: 0;
             background:
                 radial-gradient(ellipse 80% 60% at 50% 50%, rgba(26,107,58,0.35) 0%, transparent 70%),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 58px,
-                    rgba(255,255,255,0.03) 58px,
-                    rgba(255,255,255,0.03) 60px
-                ),
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 58px,
-                    rgba(255,255,255,0.02) 58px,
-                    rgba(255,255,255,0.02) 60px
-                ),
+                repeating-linear-gradient(0deg, transparent, transparent 58px, rgba(255,255,255,0.03) 58px, rgba(255,255,255,0.03) 60px),
+                repeating-linear-gradient(90deg, transparent, transparent 58px, rgba(255,255,255,0.02) 58px, rgba(255,255,255,0.02) 60px),
                 linear-gradient(160deg, #060e08 0%, #0d2015 40%, #060e08 100%);
         }
 
-        .pitch-circles {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
+        .pitch-svg {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(900px, 120vw);
+            opacity: 0.03; pointer-events: none; z-index: 0;
         }
 
         /* ── HEADER ── */
         header {
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
             text-align: center;
             padding: 2.5rem 1rem 1.5rem;
             border-bottom: 1px solid rgba(245,200,66,0.15);
         }
 
         .league-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 0.8rem;
+            display: inline-flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;
         }
 
-        .badge-line {
-            width: 50px;
-            height: 2px;
-            background: var(--gold);
-        }
+        .badge-line { width: 50px; height: 2px; background: var(--gold); }
 
         .league-badge span {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 4px;
-            color: var(--gold);
-            text-transform: uppercase;
+            font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 4px; color: var(--gold); text-transform: uppercase;
         }
 
         header h1 {
             font-family: 'Bebas Neue', sans-serif;
             font-size: clamp(2.8rem, 8vw, 5rem);
-            letter-spacing: 2px;
-            color: #fff;
-            line-height: 1;
+            letter-spacing: 2px; color: #fff; line-height: 1;
             text-shadow: 0 0 40px rgba(245,200,66,0.3);
         }
 
-        header h1 span {
-            color: var(--gold);
-        }
+        header h1 span { color: var(--gold); }
 
         .header-sub {
             margin-top: 0.5rem;
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 1rem;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.45);
-            text-transform: uppercase;
+            font-size: 1rem; letter-spacing: 3px;
+            color: rgba(255,255,255,0.45); text-transform: uppercase;
         }
 
-        /* ── MAIN STAGE ── */
-        .stage {
-            position: relative;
-            z-index: 10;
+        /* ── FILTER BAR ── */
+        .filter-section {
+            position: relative; z-index: 10;
+            padding: 1.6rem 1rem 0.6rem;
+            display: flex; flex-direction: column; align-items: center; gap: 0.9rem;
+        }
+
+        .filter-heading {
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .filter-heading .fl {
+            width: 30px; height: 1px;
+            background: linear-gradient(to right, transparent, rgba(245,200,66,0.4));
+        }
+
+        .filter-heading .fr {
+            width: 30px; height: 1px;
+            background: linear-gradient(to left, transparent, rgba(245,200,66,0.4));
+        }
+
+        .filter-heading span {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 4px; color: rgba(255,255,255,0.25); text-transform: uppercase;
+        }
+
+        /* scrollable pill row — key for mobile */
+        .filter-pills-wrap {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+        }
+
+        .filter-pills-wrap::-webkit-scrollbar { display: none; }
+
+        .filter-pills {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 1rem 2rem;
-            gap: 3rem;
+            gap: 8px;
+            width: max-content;       /* pills never wrap, scroll instead */
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .pill {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            padding: 7px 16px;
+            border-radius: 2px;
+            border: 1px solid rgba(245,200,66,0.2);
+            background: rgba(255,255,255,0.03);
+            color: rgba(255,255,255,0.45);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .pill:hover {
+            border-color: rgba(245,200,66,0.55);
+            color: rgba(255,255,255,0.85);
+            background: rgba(245,200,66,0.07);
+        }
+
+        /* ALL pill active */
+        .pill.active { background: var(--gold); color: var(--dark); border-color: var(--gold); box-shadow: 0 0 16px rgba(245,200,66,0.3); }
+
+        /* Position-coloured pills */
+        .pill[data-pos="Goalkeeper"].active,
+        .pill[data-pos="GK"].active           { background:#3b82f6; border-color:#3b82f6; color:#fff; box-shadow:0 0 16px rgba(59,130,246,0.4); }
+
+        .pill[data-pos="Defender"].active,
+        .pill[data-pos="Centre-Back"].active,
+        .pill[data-pos="Full-Back"].active     { background:#22c55e; border-color:#22c55e; color:#0a0f0d; box-shadow:0 0 16px rgba(34,197,94,0.4); }
+
+        .pill[data-pos="Midfielder"].active,
+        .pill[data-pos="Central Midfielder"].active,
+        .pill[data-pos="Defensive Midfielder"].active,
+        .pill[data-pos="Attacking Midfielder"].active { background:var(--gold); border-color:var(--gold); color:var(--dark); box-shadow:0 0 16px rgba(245,200,66,0.4); }
+
+        .pill[data-pos="Forward"].active,
+        .pill[data-pos="Striker"].active,
+        .pill[data-pos="Winger"].active        { background:#ef4444; border-color:#ef4444; color:#fff; box-shadow:0 0 16px rgba(239,68,68,0.4); }
+
+        .filter-count {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 2px; color: rgba(255,255,255,0.2);
+            text-transform: uppercase; text-align: center;
+        }
+
+        .filter-count span { color: var(--gold); font-weight: 700; }
+
+        /* ── STAGE ── */
+        .stage {
+            position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.8rem 1rem 2rem; gap: 3rem;
         }
 
         /* ── NAV ARROWS ── */
@@ -127,717 +184,651 @@
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(245,200,66,0.3);
             color: var(--gold);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            font-size: 1.4rem;
+            width: 60px; height: 60px;
+            border-radius: 50%; font-size: 1.4rem;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s ease;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s ease; flex-shrink: 0;
         }
 
-        .nav-btn:hover {
-            background: var(--gold);
-            color: var(--dark);
-            border-color: var(--gold);
-            transform: scale(1.08);
-        }
-
+        .nav-btn:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); transform: scale(1.08); }
         .nav-btn:active { transform: scale(0.97); }
+        .nav-btn:disabled { opacity: 0.2; pointer-events: none; }
 
         /* ── AUCTION CARD ── */
         .auction-card {
-            width: 380px;
-            max-width: 90vw;
+            width: 380px; max-width: 90vw;
             background: rgba(10,15,13,0.6);
             border: 1px solid rgba(245,200,66,0.25);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-            backdrop-filter: blur(12px);
+            border-radius: 4px; overflow: hidden;
+            position: relative; backdrop-filter: blur(12px);
             transition: opacity 0.35s ease, transform 0.35s ease;
         }
 
-        /* corner decorations */
-        .auction-card::before,
-        .auction-card::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            z-index: 2;
-            pointer-events: none;
+        .auction-card::before, .auction-card::after {
+            content: ''; position: absolute; width: 20px; height: 20px; z-index: 2; pointer-events: none;
         }
-        .auction-card::before {
-            top: 8px; left: 8px;
-            border-top: 2px solid var(--gold);
-            border-left: 2px solid var(--gold);
-        }
-        .auction-card::after {
-            bottom: 8px; right: 8px;
-            border-bottom: 2px solid var(--gold);
-            border-right: 2px solid var(--gold);
-        }
+        .auction-card::before { top:8px; left:8px; border-top:2px solid var(--gold); border-left:2px solid var(--gold); }
+        .auction-card::after  { bottom:8px; right:8px; border-bottom:2px solid var(--gold); border-right:2px solid var(--gold); }
 
-        /* ── CARD TOP BAR ── */
         .card-topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 16px;
-            background: var(--gold);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 16px; background: var(--gold);
         }
 
-        .card-topbar .lot {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            color: var(--dark);
-        }
+        .card-topbar .lot { font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:2px; color:var(--dark); }
+        .card-topbar .league-name { font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:2px; color:rgba(0,0,0,0.65); text-transform:uppercase; }
 
-        .card-topbar .league-name {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: rgba(0,0,0,0.65);
-            text-transform: uppercase;
-        }
-
-        /* ── PHOTO ── */
         .card-photo {
-            width: 100%;
-            height: 440px;
-            position: relative;
-            overflow: hidden;
-            background: #0d2015;
+            width: 100%; height: 440px;
+            position: relative; overflow: hidden; background: #0d2015;
         }
 
         .card-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            display: block;
-            transition: transform 0.6s ease;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center top;
+            display: block; transition: transform 0.6s ease;
         }
 
-        .auction-card:hover .card-photo img {
-            transform: scale(1.03);
-        }
+        .auction-card:hover .card-photo img { transform: scale(1.03); }
 
-        /* gradient overlay at bottom of photo */
         .card-photo::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 50%;
-            background: linear-gradient(to bottom, transparent 0%, rgba(8,12,10,0.95) 100%);
+            content: ''; position: absolute;
+            bottom:0; left:0; right:0; height:55%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(8,12,10,0.96) 100%);
             pointer-events: none;
         }
 
-        /* player number on photo */
         .player-number {
-            position: absolute;
-            top: 12px;
-            right: 14px;
-            z-index: 3;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
-            line-height: 1;
+            position: absolute; top:12px; right:14px; z-index:3;
+            font-family:'Bebas Neue',sans-serif; font-size:3.5rem; line-height:1;
             color: rgba(255,255,255,0.12);
         }
 
-        /* ── CARD INFO (overlaid on bottom of photo) ── */
         .card-info {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            z-index: 4;
-            padding: 1rem 1.2rem 1.1rem;
+            position: absolute; bottom:0; left:0; right:0;
+            z-index:4; padding:1rem 1.2rem 1.1rem;
         }
 
+        /* position tag colours */
         .position-tag {
             display: inline-block;
-            background: var(--gold);
-            color: var(--dark);
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            padding: 3px 10px;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.7rem; font-weight:700; letter-spacing:2.5px;
+            padding:3px 10px; margin-bottom:0.5rem; text-transform:uppercase;
+            background: var(--gold); color: var(--dark);
         }
+
+        .position-tag.gk  { background:#3b82f6; color:#fff; }
+        .position-tag.def { background:#22c55e; color:#0a0f0d; }
+        .position-tag.mid { background:var(--gold); color:var(--dark); }
+        .position-tag.fwd { background:#ef4444; color:#fff; }
 
         .player-name {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.4rem;
-            letter-spacing: 1px;
-            line-height: 1.05;
-            color: #fff;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+            font-family:'Bebas Neue',sans-serif;
+            font-size:2.4rem; letter-spacing:1px; line-height:1.05;
+            color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.8);
         }
 
-        /* ── CARD BOTTOM BAR ── */
         .card-bottombar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 16px;
-            background: rgba(245,200,66,0.06);
-            border-top: 1px solid rgba(245,200,66,0.15);
+            display:flex; align-items:center; justify-content:space-between;
+            padding:10px 16px;
+            background:rgba(245,200,66,0.06);
+            border-top:1px solid rgba(245,200,66,0.15);
         }
 
         .bid-label {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.4);
-            text-transform: uppercase;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.7rem; font-weight:600; letter-spacing:2px;
+            color:rgba(255,255,255,0.4); text-transform:uppercase;
         }
 
         .available-dot {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            color: #4ade80;
-            text-transform: uppercase;
+            display:flex; align-items:center; gap:6px;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.72rem; font-weight:600; letter-spacing:1.5px;
+            color:#4ade80; text-transform:uppercase;
         }
 
         .available-dot::before {
-            content: '';
-            display: block;
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: #4ade80;
-            box-shadow: 0 0 6px #4ade80;
-            animation: pulse 1.8s ease-in-out infinite;
+            content:''; display:block; width:7px; height:7px;
+            border-radius:50%; background:#4ade80;
+            box-shadow:0 0 6px #4ade80;
+            animation:pulse 1.8s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+        /* ── NO RESULTS ── */
+        .no-results {
+            width: 380px; max-width: 90vw;
+            display: none; flex-direction: column; align-items: center;
+            justify-content: center; gap: 1rem;
+            padding: 4rem 2rem;
+            border: 1px dashed rgba(245,200,66,0.15);
+            border-radius: 4px;
+        }
+
+        .no-results-ball { font-size: 3rem; opacity: 0.25; }
+
+        .no-results p {
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.82rem; letter-spacing:3px;
+            color:rgba(255,255,255,0.2); text-transform:uppercase; text-align:center;
         }
 
         /* ── COUNTER ── */
-        .counter-wrap {
-            text-align: center;
-            margin-top: 1rem;
-        }
+        .counter-wrap { text-align:center; margin-top:1rem; }
 
         .counter {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.3);
-            text-transform: uppercase;
+            display:inline-flex; align-items:center; gap:8px;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.78rem; font-weight:600; letter-spacing:2px;
+            color:rgba(255,255,255,0.3); text-transform:uppercase;
         }
 
-        .counter-dots {
-            display: flex;
-            gap: 5px;
-        }
+        .counter-dots { display:flex; gap:5px; }
 
         .counter-dot {
-            width: 5px; height: 5px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.15);
-            transition: all 0.3s;
+            width:5px; height:5px; border-radius:50%;
+            background:rgba(255,255,255,0.15); transition:all 0.3s;
         }
 
-        .counter-dot.active {
-            background: var(--gold);
-            box-shadow: 0 0 8px rgba(245,200,66,0.6);
-        }
+        .counter-dot.active { background:var(--gold); box-shadow:0 0 8px rgba(245,200,66,0.6); }
 
         /* ── LOADING ── */
         #loading {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.2rem;
-            padding: 6rem 1rem;
-            color: rgba(255,255,255,0.5);
+            position:relative; z-index:10;
+            display:flex; flex-direction:column; align-items:center;
+            justify-content:center; gap:1.2rem;
+            padding:6rem 1rem; color:rgba(255,255,255,0.5);
         }
 
         .spinner {
-            width: 44px; height: 44px;
-            border: 3px solid rgba(245,200,66,0.15);
-            border-top: 3px solid var(--gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            width:44px; height:44px;
+            border:3px solid rgba(245,200,66,0.15);
+            border-top:3px solid var(--gold);
+            border-radius:50%; animation:spin 1s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin { to{transform:rotate(360deg)} }
 
         .loading-text {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.85rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.85rem; letter-spacing:3px; text-transform:uppercase;
         }
 
-        /* ── HIDDEN ── */
-        .hidden { display: none !important; }
+        .hidden { display:none !important; }
 
         /* ── MOBILE NAV ── */
         .mobile-nav {
-            display: none;
-            justify-content: center;
-            gap: 1.5rem;
-            position: relative;
-            z-index: 10;
-            padding-bottom: 2rem;
+            display:none; justify-content:center; gap:1.5rem;
+            position:relative; z-index:10; padding-bottom:1.5rem;
         }
 
         /* ── FRANCHISE TICKER ── */
         .franchise-section {
-            position: relative;
-            z-index: 10;
-            padding: 0 0 0.5rem;
-            overflow: hidden;
+            position:relative; z-index:10;
+            padding:1rem 0 0.5rem; overflow:hidden;
         }
 
         .franchise-label {
-            text-align: center;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
+            text-align:center; margin-bottom:1.2rem;
+            display:flex; align-items:center; justify-content:center; gap:14px;
         }
 
-        .franchise-label .fl {
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(245,200,66,0.4));
-        }
-        .franchise-label .fr {
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(to left, transparent, rgba(245,200,66,0.4));
-        }
+        .franchise-label .fl { width:40px; height:1px; background:linear-gradient(to right, transparent, rgba(245,200,66,0.4)); }
+        .franchise-label .fr { width:40px; height:1px; background:linear-gradient(to left,  transparent, rgba(245,200,66,0.4)); }
 
         .franchise-label span {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: rgba(255,255,255,0.3);
-            text-transform: uppercase;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.68rem; font-weight:700;
+            letter-spacing:4px; color:rgba(255,255,255,0.3); text-transform:uppercase;
         }
 
-        .ticker-track-wrap {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
+        .ticker-track-wrap { position:relative; width:100%; overflow:hidden; }
 
-        /* fade edges */
         .ticker-track-wrap::before,
         .ticker-track-wrap::after {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0;
-            width: 100px;
-            z-index: 2;
-            pointer-events: none;
+            content:''; position:absolute; top:0; bottom:0; width:100px; z-index:2; pointer-events:none;
         }
-        .ticker-track-wrap::before {
-            left: 0;
-            background: linear-gradient(to right, var(--dark) 0%, transparent 100%);
-        }
-        .ticker-track-wrap::after {
-            right: 0;
-            background: linear-gradient(to left, var(--dark) 0%, transparent 100%);
-        }
+
+        .ticker-track-wrap::before { left:0;  background:linear-gradient(to right, var(--dark) 0%, transparent 100%); }
+        .ticker-track-wrap::after  { right:0; background:linear-gradient(to left,  var(--dark) 0%, transparent 100%); }
 
         .ticker-track {
-            display: flex;
-            gap: 2.5rem;
-            width: max-content;
-            animation: ticker-scroll 28s linear infinite;
-            padding: 0.5rem 0 1.5rem;
+            display:flex; gap:2.5rem; width:max-content;
+            animation:ticker-scroll 28s linear infinite;
+            padding:0.5rem 0 1.5rem;
         }
 
-        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-track:hover { animation-play-state:paused; }
 
-        @keyframes ticker-scroll {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        @keyframes ticker-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
         .franchise-logo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-            cursor: default;
-            transition: transform 0.3s ease;
+            display:flex; flex-direction:column; align-items:center;
+            gap:8px; flex-shrink:0; cursor:default; transition:transform 0.3s ease;
         }
 
-        .franchise-logo:hover { transform: translateY(-4px) scale(1.05); }
+        .franchise-logo:hover { transform:translateY(-4px) scale(1.05); }
 
         .logo-circle {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(245,200,66,0.25);
-            background: rgba(255,255,255,0.04);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            transition: border-color 0.3s ease;
+            width:72px; height:72px; border-radius:50%;
+            border:1.5px solid rgba(245,200,66,0.25);
+            background:rgba(255,255,255,0.04);
+            display:flex; align-items:center; justify-content:center;
+            overflow:hidden; transition:border-color 0.3s ease;
         }
 
-        .franchise-logo:hover .logo-circle {
-            border-color: rgba(245,200,66,0.7);
-        }
+        .franchise-logo:hover .logo-circle { border-color:rgba(245,200,66,0.7); }
 
         .logo-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 8px;
-            filter: brightness(0.9) saturate(0.85);
-            transition: filter 0.3s ease;
+            width:100%; height:100%; object-fit:contain; padding:8px;
+            filter:brightness(0.9) saturate(0.85); transition:filter 0.3s ease;
         }
 
-        .franchise-logo:hover .logo-circle img {
-            filter: brightness(1.1) saturate(1.1);
-        }
+        .franchise-logo:hover .logo-circle img { filter:brightness(1.1) saturate(1.1); }
 
-        /* placeholder shield for teams without a logo */
         .logo-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
-            color: rgba(245,200,66,0.6);
+            width:100%; height:100%;
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Bebas Neue',sans-serif; font-size:1.3rem; letter-spacing:1px;
+            color:rgba(245,200,66,0.6);
         }
 
         .franchise-name {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.62rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            color: rgba(255,255,255,0.35);
-            text-transform: uppercase;
-            text-align: center;
-            max-width: 80px;
-            line-height: 1.3;
-            transition: color 0.3s;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.62rem; font-weight:600; letter-spacing:1.5px;
+            color:rgba(255,255,255,0.35); text-transform:uppercase;
+            text-align:center; max-width:80px; line-height:1.3; transition:color 0.3s;
         }
 
-        .franchise-logo:hover .franchise-name { color: rgba(245,200,66,0.7); }
+        .franchise-logo:hover .franchise-name { color:rgba(245,200,66,0.7); }
 
-        .ticker-divider {
-            width: 1px;
-            height: 40px;
-            background: rgba(245,200,66,0.12);
-            align-self: center;
-            flex-shrink: 0;
-        }
+        .ticker-divider { width:1px; height:40px; background:rgba(245,200,66,0.12); align-self:center; flex-shrink:0; }
 
         /* ── FOOTER ── */
         footer {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 1.5rem;
-            border-top: 1px solid rgba(245,200,66,0.08);
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.72rem;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.2);
-            text-transform: uppercase;
+            position:relative; z-index:10; text-align:center; padding:1.5rem;
+            border-top:1px solid rgba(245,200,66,0.08);
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.72rem; letter-spacing:2px;
+            color:rgba(255,255,255,0.2); text-transform:uppercase;
         }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 640px) {
-            .stage { flex-direction: column; gap: 1.5rem; padding: 2rem 1rem 1rem; }
-            .nav-btn.desktop { display: none; }
-            .mobile-nav { display: flex; }
-            .auction-card { width: 340px; }
-            .card-photo { height: 380px; }
+            .stage { flex-direction:column; gap:1.2rem; padding:1.5rem 1rem 1rem; }
+            .nav-btn.desktop { display:none; }
+            .mobile-nav { display:flex; }
+            .auction-card { width:320px; }
+            .card-photo { height:360px; }
+            .player-name { font-size:2rem; }
+            .no-results { width:320px; }
         }
 
         @media (min-width: 641px) {
-            .mobile-nav { display: none !important; }
-        }
-
-        /* ── PITCH SVG ── */
-        .pitch-svg {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: min(900px, 120vw);
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 0;
+            .mobile-nav { display:none !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Decorative pitch background -->
-    <div class="pitch-bg"></div>
-    <svg class="pitch-svg" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#fff" stroke-width="1.5">
-        <rect x="10" y="10" width="780" height="500" rx="2"/>
-        <line x1="400" y1="10" x2="400" y2="510"/>
-        <circle cx="400" cy="260" r="70"/>
-        <circle cx="400" cy="260" r="4" fill="#fff"/>
-        <rect x="10" y="160" width="100" height="200"/>
-        <rect x="690" y="160" width="100" height="200"/>
-        <rect x="10" y="200" width="50" height="120"/>
-        <rect x="740" y="200" width="50" height="120"/>
-        <path d="M400 10 A60 60 0 0 1 400 130" stroke-dasharray="4 3"/>
-        <path d="M400 510 A60 60 0 0 0 400 390" stroke-dasharray="4 3"/>
-    </svg>
+<div class="pitch-bg"></div>
+<svg class="pitch-svg" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#fff" stroke-width="1.5">
+    <rect x="10" y="10" width="780" height="500" rx="2"/>
+    <line x1="400" y1="10" x2="400" y2="510"/>
+    <circle cx="400" cy="260" r="70"/>
+    <circle cx="400" cy="260" r="4" fill="#fff"/>
+    <rect x="10" y="160" width="100" height="200"/>
+    <rect x="690" y="160" width="100" height="200"/>
+    <rect x="10" y="200" width="50" height="120"/>
+    <rect x="740" y="200" width="50" height="120"/>
+    <path d="M400 10 A60 60 0 0 1 400 130" stroke-dasharray="4 3"/>
+    <path d="M400 510 A60 60 0 0 0 400 390" stroke-dasharray="4 3"/>
+</svg>
 
-    <!-- Header -->
-    <header>
-        <div class="league-badge">
-            <div class="badge-line"></div>
-            <span>Official Player Auction</span>
-            <div class="badge-line"></div>
+<!-- Header -->
+<header>
+    <div class="league-badge">
+        <div class="badge-line"></div>
+        <span>Official Player Auction</span>
+        <div class="badge-line"></div>
+    </div>
+    <h1>Vaikom <span>Football</span> League</h1>
+    <p class="header-sub">2025 — Player Roster</p>
+</header>
+
+<!-- Loading -->
+<div id="loading">
+    <div class="spinner"></div>
+    <p class="loading-text">Fetching players…</p>
+</div>
+
+<!-- Filter Bar — appears after load -->
+<div id="filter-section" class="filter-section hidden">
+    <div class="filter-heading">
+        <div class="fl"></div>
+        <span>Filter by Position</span>
+        <div class="fr"></div>
+    </div>
+    <div class="filter-pills-wrap">
+        <div class="filter-pills" id="filter-pills">
+            <!-- built by JS -->
         </div>
-        <h1>Vaikom <span>Football</span> League</h1>
-        <p class="header-sub">2025 — Player Roster</p>
-    </header>
+    </div>
+    <div class="filter-count" id="filter-count"></div>
+</div>
 
-    <!-- Loading -->
-    <div id="loading">
-        <div class="spinner"></div>
-        <p class="loading-text">Fetching players…</p>
+<!-- Auction Stage -->
+<div id="stage" class="stage hidden">
+    <button class="nav-btn desktop" id="prev-btn" onclick="prevPlayer()" aria-label="Previous player">&#10094;</button>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div class="auction-card" id="auction-card"></div>
+        <div class="no-results" id="no-results">
+            <div class="no-results-ball">⚽</div>
+            <p>No players found<br>for this position</p>
+        </div>
+        <div class="counter-wrap" id="counter-wrap">
+            <div class="counter">
+                <div class="counter-dots" id="counter-dots"></div>
+                <span id="counter-text"></span>
+            </div>
+        </div>
     </div>
 
-    <!-- Auction Stage -->
-    <div id="stage" class="stage hidden">
-        <button class="nav-btn desktop" id="prev-btn" onclick="prevPlayer()" aria-label="Previous player">&#10094;</button>
+    <button class="nav-btn desktop" id="next-btn" onclick="nextPlayer()" aria-label="Next player">&#10095;</button>
+</div>
 
-        <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
-            <div class="auction-card" id="auction-card">
-                <!-- rendered by JS -->
-            </div>
-            <div class="counter-wrap">
-                <div class="counter">
-                    <div class="counter-dots" id="counter-dots"></div>
-                    <span id="counter-text"></span>
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav">
+    <button class="nav-btn" onclick="prevPlayer()" aria-label="Previous player">&#10094;</button>
+    <button class="nav-btn" onclick="nextPlayer()" aria-label="Next player">&#10095;</button>
+</div>
+
+<!-- Franchise Ticker -->
+<section class="franchise-section">
+    <div class="franchise-label">
+        <div class="fl"></div>
+        <span>Participating Franchises</span>
+        <div class="fr"></div>
+    </div>
+    <div class="ticker-track-wrap">
+        <div class="ticker-track" id="ticker-track"></div>
+    </div>
+</section>
+
+<footer>Vaikom Football League &nbsp;·&nbsp; Player Auction System</footer>
+
+<script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwv9NM2pOm3PRjdX7JLcnFvhNlbuCA_Pk1GPRpgyKyEj-r_XlFm1S_9lexCUNl84LcGsw/exec';
+
+    let allPlayers   = [];
+    let filtered     = [];
+    let current      = 0;
+    let activeFilter = 'All';
+    const MAX_DOTS   = 10;
+
+    /* ── HELPERS ── */
+
+    function getImageUrl(url) {
+        if (!url) return '';
+        if (!url.includes('google.com')) return url;
+        const m = url.match(/id=([^&]+)/) || url.match(/\/d\/([^/]+)/);
+        return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w800` : url;
+    }
+
+    function getPosition(p) {
+        for (const k of ["Preferred Playing Position", "Preferred Playing Position ", "Position"]) {
+            if (p[k]) return String(p[k]).trim();
+        }
+        for (const k in p) {
+            if (k.toLowerCase().includes("position") && p[k]) return String(p[k]).trim();
+        }
+        return "Player";
+    }
+
+    // Returns a CSS class for colour-coding based on position text
+    function posClass(pos) {
+        const p = (pos || '').toLowerCase();
+        if (p.includes('goal')) return 'gk';
+        if (p.includes('defend') || p.includes('back') || p.includes('cb') || p.includes('lb') || p.includes('rb') || p.includes('centre-back') || p.includes('full-back')) return 'def';
+        if (p.includes('mid')) return 'mid';
+        if (p.includes('forward') || p.includes('striker') || p.includes('winger') || p.includes('st') || p.includes('cf') || p.includes('lw') || p.includes('rw') || p.includes('attack')) return 'fwd';
+        return 'mid';
+    }
+
+    /* ── BUILD FILTER PILLS ── */
+
+    function buildFilters() {
+        // Collect unique trimmed positions
+        const posSet = new Set();
+        allPlayers.forEach(p => {
+            const pos = getPosition(p);
+            if (pos && pos !== 'Player') posSet.add(pos);
+        });
+
+        const positions = ['All', ...Array.from(posSet).sort()];
+        const container = document.getElementById('filter-pills');
+
+        container.innerHTML = positions.map(pos => {
+            const isAll  = pos === 'All';
+            const count  = isAll
+                ? allPlayers.length
+                : allPlayers.filter(p => getPosition(p) === pos).length;
+            const dataAttr = !isAll ? `data-pos="${pos}"` : '';
+            return `
+                <button
+                    class="pill${isAll ? ' active' : ''}"
+                    ${dataAttr}
+                    onclick="setFilter('${pos.replace(/'/g, "\\'")}')">
+                    ${pos}
+                    <span style="opacity:0.5;font-size:0.6rem;margin-left:4px;">${count}</span>
+                </button>`;
+        }).join('');
+
+        updateCount();
+    }
+
+    function setFilter(pos) {
+        activeFilter = pos;
+        current = 0;
+
+        // Update pill active states
+        document.querySelectorAll('.pill').forEach(btn => {
+            // match by text content before the count span
+            const btnLabel = btn.childNodes[0].textContent.trim();
+            btn.classList.toggle('active', btnLabel === pos);
+        });
+
+        filtered = pos === 'All'
+            ? [...allPlayers]
+            : allPlayers.filter(p => getPosition(p) === pos);
+
+        updateCount();
+        refreshView();
+    }
+
+    function updateCount() {
+        const n    = filtered.length;
+        const label = activeFilter === 'All' ? 'All positions' : activeFilter;
+        document.getElementById('filter-count').innerHTML =
+            `Showing <span>${n}</span> player${n !== 1 ? 's' : ''} · ${label}`;
+    }
+
+    /* ── SHOW / HIDE CARD vs NO-RESULTS ── */
+
+    function refreshView() {
+        const card    = document.getElementById('auction-card');
+        const noRes   = document.getElementById('no-results');
+        const cWrap   = document.getElementById('counter-wrap');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const mobPrev = document.querySelectorAll('.mobile-nav .nav-btn')[0];
+        const mobNext = document.querySelectorAll('.mobile-nav .nav-btn')[1];
+
+        const hasPlayers = filtered.length > 0;
+
+        card.style.display   = hasPlayers ? ''     : 'none';
+        noRes.style.display  = hasPlayers ? 'none' : 'flex';
+        cWrap.style.display  = hasPlayers ? ''     : 'none';
+
+        if (prevBtn) prevBtn.disabled = !hasPlayers;
+        if (nextBtn) nextBtn.disabled = !hasPlayers;
+        if (mobPrev) mobPrev.disabled = !hasPlayers;
+        if (mobNext) mobNext.disabled = !hasPlayers;
+
+        if (hasPlayers) render(current);
+    }
+
+    /* ── DOTS ── */
+
+    function buildDots(total, active) {
+        const container = document.getElementById('counter-dots');
+        container.innerHTML = '';
+        const show = Math.min(total, MAX_DOTS);
+        for (let i = 0; i < show; i++) {
+            const d = document.createElement('div');
+            d.className = 'counter-dot' + (i === active % show ? ' active' : '');
+            container.appendChild(d);
+        }
+    }
+
+    /* ── RENDER CARD ── */
+
+    function render(index) {
+        const card = document.getElementById('auction-card');
+        const p    = filtered[index];
+
+        const name     = p["Player Name"] || p.Name || p.PlayerName || "Unknown";
+        const position = getPosition(p);
+        const rawPhoto = p["Player Photo"] || p.Photo || p.PhotoURL || p.Image || '';
+        const photo    = getImageUrl(rawPhoto);
+        const globalIdx = allPlayers.indexOf(p);
+        const lotNum   = String(globalIdx + 1).padStart(3, '0');
+        const pc       = posClass(position);
+
+        document.getElementById('counter-text').textContent = `${index + 1} of ${filtered.length}`;
+        buildDots(filtered.length, index);
+
+        card.style.opacity   = '0';
+        card.style.transform = 'scale(0.97) translateY(6px)';
+
+        setTimeout(() => {
+            card.innerHTML = `
+                <div class="card-topbar">
+                    <span class="lot">Lot #${lotNum}</span>
+                    <span class="league-name">Vaikom Football League</span>
                 </div>
-            </div>
-        </div>
-
-        <button class="nav-btn desktop" id="next-btn" onclick="nextPlayer()" aria-label="Next player">&#10095;</button>
-    </div>
-
-    <!-- Mobile Nav -->
-    <div class="mobile-nav" id="mobile-nav">
-        <button class="nav-btn" onclick="prevPlayer()" aria-label="Previous player">&#10094;</button>
-        <button class="nav-btn" onclick="nextPlayer()" aria-label="Next player">&#10095;</button>
-    </div>
-
-    <!-- ── FRANCHISE TICKER ── -->
-    <section class="franchise-section" id="franchise-section">
-        <div class="franchise-label">
-            <div class="fl"></div>
-            <span>Participating Franchises</span>
-            <div class="fr"></div>
-        </div>
-        <div class="ticker-track-wrap">
-            <div class="ticker-track" id="ticker-track">
-                <!-- JS fills this -->
-            </div>
-        </div>
-    </section>
-
-    <footer>Vaikom Football League &nbsp;·&nbsp; Player Auction System</footer>
-
-    <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwv9NM2pOm3PRjdX7JLcnFvhNlbuCA_Pk1GPRpgyKyEj-r_XlFm1S_9lexCUNl84LcGsw/exec';
-
-        let players = [];
-        let current = 0;
-        const MAX_DOTS = 10;
-
-        function getImageUrl(url) {
-            if (!url) return '';
-            if (!url.includes('google.com')) return url;
-            const m = url.match(/id=([^&]+)/) || url.match(/\/d\/([^/]+)/);
-            return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w800` : url;
-        }
-
-        function getPosition(p) {
-            for (const k of ["Preferred Playing Position", "Preferred Playing Position ", "Position"]) {
-                if (p[k]) return p[k];
-            }
-            for (const k in p) {
-                if (k.toLowerCase().includes("position")) return p[k];
-            }
-            return "Player";
-        }
-
-        function buildDots(total, active) {
-            const container = document.getElementById('counter-dots');
-            container.innerHTML = '';
-            const show = Math.min(total, MAX_DOTS);
-            for (let i = 0; i < show; i++) {
-                const d = document.createElement('div');
-                d.className = 'counter-dot' + (i === active % show ? ' active' : '');
-                container.appendChild(d);
-            }
-        }
-
-        function render(index) {
-            const card = document.getElementById('auction-card');
-            const p = players[index];
-
-            const name = p["Player Name"] || p.Name || p.PlayerName || "Unknown";
-            const position = getPosition(p);
-            const rawPhoto = p["Player Photo"] || p.Photo || p.PhotoURL || p.Image || '';
-            const photo = getImageUrl(rawPhoto);
-            const lotNum = String(index + 1).padStart(3, '0');
-
-            document.getElementById('counter-text').textContent = `${index + 1} of ${players.length}`;
-            buildDots(players.length, index);
-
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.97) translateY(6px)';
-
-            setTimeout(() => {
-                card.innerHTML = `
-                    <div class="card-topbar">
-                        <span class="lot">Lot #${lotNum}</span>
-                        <span class="league-name">Vaikom Football League</span>
-                    </div>
-                    <div class="card-photo">
-                        <span class="player-number">${lotNum}</span>
-                        <img src="${photo}" alt="${name}"
-                             onerror="this.src='https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=800&q=80'">
-                    </div>
+                <div class="card-photo">
+                    <span class="player-number">${lotNum}</span>
+                    <img src="${photo}" alt="${name}"
+                         onerror="this.src='https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=800&q=80'">
                     <div class="card-info">
-                        <div class="position-tag">${position}</div>
+                        <div class="position-tag ${pc}">${position}</div>
                         <div class="player-name">${name}</div>
                     </div>
-                    <div class="card-bottombar">
-                        <span class="bid-label">Available for Auction</span>
-                        <span class="available-dot">Ready</span>
-                    </div>
-                `;
-                card.style.opacity = '1';
-                card.style.transform = 'scale(1) translateY(0)';
-                card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-            }, 180);
-        }
+                </div>
+                <div class="card-bottombar">
+                    <span class="bid-label">Available for Auction</span>
+                    <span class="available-dot">Ready</span>
+                </div>
+            `;
+            card.style.opacity   = '1';
+            card.style.transform = 'scale(1) translateY(0)';
+            card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+        }, 180);
+    }
 
-        function nextPlayer() {
-            current = (current + 1) % players.length;
-            render(current);
-        }
+    /* ── NAVIGATION ── */
 
-        function prevPlayer() {
-            current = (current - 1 + players.length) % players.length;
-            render(current);
-        }
+    function nextPlayer() {
+        if (!filtered.length) return;
+        current = (current + 1) % filtered.length;
+        render(current);
+    }
 
-        // Keyboard nav
-        document.addEventListener('keydown', e => {
-            if (players.length === 0) return;
-            if (e.key === 'ArrowRight') nextPlayer();
-            if (e.key === 'ArrowLeft') prevPlayer();
-        });
+    function prevPlayer() {
+        if (!filtered.length) return;
+        current = (current - 1 + filtered.length) % filtered.length;
+        render(current);
+    }
 
-        // Touch/swipe
-        let touchStartX = 0;
-        document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-        document.addEventListener('touchend', e => {
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(dx) > 50) { dx < 0 ? nextPlayer() : prevPlayer(); }
-        });
+    // Keyboard
+    document.addEventListener('keydown', e => {
+        if (!filtered.length) return;
+        if (e.key === 'ArrowRight') nextPlayer();
+        if (e.key === 'ArrowLeft')  prevPlayer();
+    });
 
-        async function loadPlayers() {
-            try {
-                const res = await fetch(API_URL);
-                const data = await res.json();
-                document.getElementById('loading').classList.add('hidden');
-                if (data && data.length > 0) {
-                    players = data;
-                    document.getElementById('stage').classList.remove('hidden');
-                    document.getElementById('mobile-nav').style.display = 'flex';
-                    render(current);
-                } else {
-                    document.getElementById('loading').classList.remove('hidden');
-                    document.getElementById('loading').innerHTML = '<p class="loading-text">No players found.</p>';
-                }
-            } catch (err) {
+    // Swipe
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend',   e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) { dx < 0 ? nextPlayer() : prevPlayer(); }
+    });
+
+    /* ── LOAD DATA ── */
+
+    async function loadPlayers() {
+        try {
+            const res  = await fetch(API_URL);
+            const data = await res.json();
+            document.getElementById('loading').classList.add('hidden');
+
+            if (data && data.length > 0) {
+                allPlayers = data;
+                filtered   = [...allPlayers];
+
+                document.getElementById('filter-section').classList.remove('hidden');
+                document.getElementById('stage').classList.remove('hidden');
+                document.getElementById('mobile-nav').style.display = 'flex';
+
+                buildFilters();
+                render(current);
+            } else {
+                document.getElementById('loading').innerHTML = '<p class="loading-text">No players found.</p>';
                 document.getElementById('loading').classList.remove('hidden');
-                document.getElementById('loading').innerHTML = '<p class="loading-text">Failed to load players.</p>';
-                console.error(err);
             }
+        } catch (err) {
+            document.getElementById('loading').innerHTML = '<p class="loading-text">Failed to load players.</p>';
+            document.getElementById('loading').classList.remove('hidden');
+            console.error(err);
         }
+    }
 
-        // ── FRANCHISE TICKER ──
-        // Replace the logo URLs below with your actual team logo image links.
-        // Each entry: { name: "Team Name", logo: "https://your-logo-url.png" }
-        // If you leave logo as "", a gold initial placeholder is shown instead.
-        const FRANCHISES = [
-            { name: "Alpha Lions",   logo: "images/alpha_lions_fc.jpeg" },
-            { name: "Delta United",  logo: "images/delta_united.jpeg" },
-            { name: "Fc Emirate",    logo: "images/fc_emirate.jpeg" },
-            { name: "Fc Fitwell",  logo: "images/fc_fitwell.jpeg" },
-            { name: "Golden Age",  logo: "images/golden_age.jpeg" },
-            { name: "La Carrington Vaikom",    logo: "images/la_carrington_vaikom.jpeg" },
-            { name: "Rivals Fc Vaikom",   logo: "images/rivals_fc_vaikom.jpeg" },
-            { name: "Riverside Fc",     logo: "images/riverside_fc.jpeg" },
-            { name: "Titans Fc Vaikom",   logo: "images/titans_fc_vaikom.jpeg" },
-        ];
+    /* ── FRANCHISE TICKER ── */
 
-        function buildTicker() {
-            const track = document.getElementById('ticker-track');
-            // Duplicate list so infinite scroll looks seamless
-            const allTeams = [...FRANCHISES, ...FRANCHISES];
-            track.innerHTML = allTeams.map((t, i) => {
-                const initials = t.name.split(' ').map(w => w[0]).join('').slice(0,3).toUpperCase();
-                const inner = t.logo
-                    ? `<img src="${t.logo}" alt="${t.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-                      + `<div class="logo-placeholder" style="display:none">${initials}</div>`
-                    : `<div class="logo-placeholder">${initials}</div>`;
-                const divider = (i < allTeams.length - 1) ? '<div class="ticker-divider"></div>' : '';
-                return `
-                    <div class="franchise-logo" title="${t.name}">
-                        <div class="logo-circle">${inner}</div>
-                        <div class="franchise-name">${t.name}</div>
-                    </div>
-                    ${divider}
-                `;
-            }).join('');
-        }
+    const FRANCHISES = [
+        { name: "Alpha Lions",           logo: "images/alpha_lions_fc.jpeg" },
+        { name: "Delta United",          logo: "images/delta_united.jpeg" },
+        { name: "Fc Emirate",            logo: "images/fc_emirate.jpeg" },
+        { name: "Fc Fitwell",            logo: "images/fc_fitwell.jpeg" },
+        { name: "Golden Age",            logo: "images/golden_age.jpeg" },
+        { name: "La Carrington Vaikom", logo: "images/la_carrington_vaikom.jpeg" },
+        { name: "Rivals Fc Vaikom",      logo: "images/rivals_fc_vaikom.jpeg" },
+        { name: "Riverside Fc",          logo: "images/riverside_fc.jpeg" },
+        { name: "Titans Fc Vaikom",      logo: "images/titans_fc_vaikom.jpeg" },
+    ];
 
-        buildTicker();
+    function buildTicker() {
+        const track    = document.getElementById('ticker-track');
+        const allTeams = [...FRANCHISES, ...FRANCHISES];
+        track.innerHTML = allTeams.map((t, i) => {
+            const initials = t.name.split(' ').map(w => w[0]).join('').slice(0, 3).toUpperCase();
+            const inner = t.logo
+                ? `<img src="${t.logo}" alt="${t.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="logo-placeholder" style="display:none">${initials}</div>`
+                : `<div class="logo-placeholder">${initials}</div>`;
+            const divider = i < allTeams.length - 1 ? '<div class="ticker-divider"></div>' : '';
+            return `<div class="franchise-logo" title="${t.name}"><div class="logo-circle">${inner}</div><div class="franchise-name">${t.name}</div></div>${divider}`;
+        }).join('');
+    }
 
-        loadPlayers();
-    </script>
+    buildTicker();
+    loadPlayers();
+</script>
 </body>
 </html>
