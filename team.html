@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vaikom Football League 2025</title>
+<title>Vaikom Football League 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -323,9 +323,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   <div class="hero-lines"></div>
   <div class="hero-glow"></div>
   <div class="hero-inner">
-    <div class="pill"><span class="pill-dot"></span>Official Squad Registry · 2025</div>
+    <div class="pill"><span class="pill-dot"></span>Official Squad Registry · 2026</div>
     <h1 class="hero-title">Vaikom<span class="accent">Football</span>League</h1>
-    <p class="hero-sub">Kerala &nbsp;·&nbsp; India &nbsp;·&nbsp; Season 2025</p>
+    <p class="hero-sub">Kerala &nbsp;·&nbsp; India &nbsp;·&nbsp; Season 2026</p>
     <div class="stats-bar">
       <div class="stat"><span class="stat-n" id="sTeams">—</span><span class="stat-l">Teams</span></div>
       <div class="stat"><span class="stat-n" id="sPlayers">—</span><span class="stat-l">Players</span></div>
@@ -336,7 +336,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 
 <div id="loading" class="loading"><div class="spin"></div>Loading squads…</div>
 <main class="wrap" id="root"></main>
-<footer class="footer"><span>Vaikom Football League</span> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; 2025</footer>
+<footer class="footer"><span>Vaikom Football League</span> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; 2026</footer>
 
 <script>
 const TEAMS = {
@@ -479,7 +479,7 @@ function render(rows) {
   const names = Object.keys(map).sort();
   let tp = 0, ti = 0;
   document.getElementById('sTeams').textContent = names.length;
-  root.insertAdjacentHTML('beforeend', `<div class="section-label">All Teams — Season 2025</div>`);
+  root.insertAdjacentHTML('beforeend', `<div class="section-label">All Teams — Season 2026</div>`);
 
   names.forEach((teamName, idx) => {
     const cfg  = findTeamCfg(teamName);
