@@ -24,11 +24,12 @@
   --tx2:#7a7267;
   --tx3:#3a3530;
   --white:#f5f1eb;
+  --red:#c0392b;
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
 
-/* ── HERO ── */
+/* HERO */
 .hero{
   min-height:100vh;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
@@ -57,6 +58,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   pointer-events:none;
 }
 .hero-inner{position:relative;z-index:1;max-width:800px}
+
 .pill{
   display:inline-flex;align-items:center;gap:8px;
   font-family:'DM Mono',monospace;font-size:10px;
@@ -64,29 +66,41 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   background:var(--gold-dim);border:1px solid var(--gold-rim);
   padding:7px 16px;border-radius:2px;margin-bottom:40px;
 }
-.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2.4s ease-in-out infinite}
+.pill-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--gold);
+  animation:pulse 2.4s ease-in-out infinite;
+}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+
 .hero-title{
   font-family:'Playfair Display',serif;
   font-size:clamp(4rem,11vw,9.5rem);
   font-weight:900;line-height:0.88;
-  color:var(--white);letter-spacing:-0.02em;margin-bottom:8px;
+  color:var(--white);
+  letter-spacing:-0.02em;
+  margin-bottom:8px;
 }
 .hero-title .accent{
-  display:block;color:transparent;
-  -webkit-text-stroke:1.5px var(--gold);font-style:italic;
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--gold);
+  font-style:italic;
 }
 .hero-sub{
   font-family:'DM Mono',monospace;font-size:10px;
   letter-spacing:0.24em;text-transform:uppercase;
   color:var(--tx3);margin-top:20px;margin-bottom:52px;
 }
+
 .stats-bar{
   display:inline-flex;align-items:stretch;
   border:1px solid var(--line2);border-radius:3px;
   overflow:hidden;background:var(--bg1);
 }
-.stat{padding:18px 40px;border-right:1px solid var(--line);text-align:center}
+.stat{
+  padding:18px 40px;border-right:1px solid var(--line);
+  text-align:center;
+}
 .stat:last-child{border-right:none}
 .stat-n{
   font-family:'Playfair Display',serif;
@@ -99,18 +113,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   margin-top:5px;display:block;font-family:'DM Mono',monospace;
 }
 
-/* ── MAIN ── */
+/* MAIN WRAP */
 .wrap{max-width:1280px;margin:0 auto;padding:56px 24px 100px}
+
 .section-label{
-  font-family:'DM Mono',monospace;font-size:10px;
-  letter-spacing:0.22em;text-transform:uppercase;
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
   color:var(--tx3);margin-bottom:28px;
   display:flex;align-items:center;gap:16px;
 }
 .section-label::before{content:'';width:24px;height:1px;background:var(--gold);opacity:0.5}
 .section-label::after{content:'';flex:1;height:1px;background:var(--line)}
 
-/* ── TEAM CARD ── */
+/* TEAM CARD */
 .team-card{
   margin-bottom:4px;border-radius:3px;
   overflow:hidden;border:1px solid var(--line);
@@ -118,13 +133,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 }
 .team-card.open{border-color:var(--line2)}
 
-/* ─ DESKTOP HEAD: bar | logo | info | manager | chevron ─ */
+/* HEAD ROW */
 .tc-head{
   display:grid;
   grid-template-columns:4px 76px 1fr auto 52px;
   align-items:stretch;
-  background:var(--bg1);cursor:pointer;
-  min-height:84px;transition:background 0.2s;user-select:none;
+  background:var(--bg1);
+  cursor:pointer;
+  min-height:84px;
+  transition:background 0.2s;
+  user-select:none;
 }
 .tc-head:hover{background:var(--bg2)}
 .team-card.open .tc-head{background:var(--bg2);border-bottom:1px solid var(--line)}
@@ -139,11 +157,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .tc-logo{
   width:52px;height:52px;border-radius:3px;
   background:var(--bg3);border:1px solid var(--line2);
-  overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
 }
 .tc-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.mgr-av img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .tc-logo-text{
-  font-family:'Playfair Display',serif;font-size:13px;font-weight:700;
+  font-family:'Playfair Display',serif;
+  font-size:13px;font-weight:700;
   color:var(--gold);text-align:center;line-height:1.1;letter-spacing:0.04em;
 }
 
@@ -165,7 +186,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .tc-chip.g{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-rim)}
 .tc-chip.w{background:rgba(255,255,255,0.04);color:var(--tx2);border:1px solid var(--line)}
 
-/* ─ DESKTOP MANAGER STRIP ─ */
+/* MANAGER */
 .tc-mgr{
   display:flex;align-items:center;gap:14px;
   padding:12px 22px;border-left:1px solid var(--line);
@@ -173,33 +194,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 }
 .mgr-av{
   width:46px;height:46px;border-radius:50%;flex-shrink:0;
-  overflow:hidden;background:var(--bg3);border:1px solid var(--line2);
+  overflow:hidden;background:var(--bg3);
+  border:1px solid var(--line2);
   display:flex;align-items:center;justify-content:center;
 }
 .mgr-av img{width:100%;height:100%;object-fit:cover;object-position:top}
-.mgr-av-text{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--gold)}
-.mgr-role{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx3);margin-bottom:3px}
+.mgr-av-text{
+  font-family:'Playfair Display',serif;
+  font-size:14px;font-weight:700;color:var(--gold);
+}
+.mgr-role{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--tx3);margin-bottom:3px;
+}
 .mgr-name{font-size:13.5px;font-weight:600;color:var(--tx);line-height:1.2}
 .mgr-phone{font-size:11px;color:var(--tx2);margin-top:1px}
 
-/* ─ MOBILE MANAGER ROW (inside tc-info, always visible) ─ */
-.tc-mgr-mobile{
-  display:none; /* shown via media query */
-  align-items:center;gap:10px;
-  margin-top:4px;
-}
-.mgr-av-sm{
-  width:32px;height:32px;border-radius:50%;flex-shrink:0;
-  overflow:hidden;background:var(--bg3);border:1px solid var(--line2);
-  display:flex;align-items:center;justify-content:center;
-}
-.mgr-av-sm img{width:100%;height:100%;object-fit:cover;object-position:top}
-.mgr-av-sm-text{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:var(--gold)}
-.mgr-mobile-info{}
-.mgr-mobile-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tx3)}
-.mgr-mobile-name{font-size:12px;font-weight:600;color:var(--tx);line-height:1.2}
-
-/* ─ CHEVRON ─ */
+/* CHEVRON */
 .tc-chev-cell{
   display:flex;align-items:center;justify-content:center;
   border-left:1px solid var(--line);
@@ -217,18 +229,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 }
 .tc-chev svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* ─ ROSTER ─ */
+/* ROSTER */
 .tc-roster{display:none;padding:22px;background:var(--bg)}
 .team-card.open .tc-roster{display:block}
 
-/* ─ PLAYER GRID ─ */
+/* PLAYER GRID */
 .pgrid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(172px,1fr));
   gap:12px;
 }
 
-/* ─ PLAYER CARD ─ */
+/* PLAYER CARD */
 .pc{
   background:var(--bg1);border:1px solid var(--line);
   border-radius:3px;overflow:hidden;position:relative;
@@ -238,18 +250,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .pc:hover{transform:translateY(-3px);border-color:var(--line2)}
 .pc.icon{border-color:rgba(201,168,76,0.25)}
 .pc.icon:hover{border-color:rgba(201,168,76,0.5)}
+
 .pc-crown{
   position:absolute;top:8px;right:8px;z-index:4;
   font-family:'DM Mono',monospace;
   font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
   padding:3px 7px;border-radius:2px;
-  background:rgba(201,168,76,0.15);color:var(--gold2);border:1px solid rgba(201,168,76,0.3);
+  background:rgba(201,168,76,0.15);color:var(--gold2);
+  border:1px solid rgba(201,168,76,0.3);
 }
+
 .pc-img{
-  width:100%;aspect-ratio:3/4;background:var(--bg3);overflow:hidden;position:relative;
+  width:100%;aspect-ratio:3/4;
+  background:var(--bg3);overflow:hidden;position:relative;
 }
 .pc-img img{
-  width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;display:block;
   transition:transform 0.35s ease;
 }
 .pc:hover .pc-img img{transform:scale(1.05)}
@@ -263,14 +280,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 }
 .pc-ph svg{opacity:0.08}
 .pc-ph span{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.1em;font-family:'DM Mono',monospace}
+
 .pc-body{padding:10px 12px 13px;flex:1;display:flex;flex-direction:column;gap:7px}
 .pc-name{font-size:13.5px;font-weight:600;line-height:1.2;color:var(--white)}
 .pc.icon .pc-name{color:var(--gold2)}
 .pc-pos{
-  display:inline-block;font-family:'DM Mono',monospace;
+  display:inline-block;
+  font-family:'DM Mono',monospace;
   font-size:9px;letter-spacing:0.07em;text-transform:uppercase;
   padding:3px 7px;border-radius:2px;
-  background:rgba(255,255,255,0.04);color:var(--tx2);border:1px solid var(--line);width:fit-content;
+  background:rgba(255,255,255,0.04);color:var(--tx2);
+  border:1px solid var(--line);
+  width:fit-content;
 }
 .pc.icon .pc-pos{background:var(--gold-dim);color:var(--gold);border-color:var(--gold-rim)}
 .pc-sep{height:1px;background:var(--line)}
@@ -282,10 +303,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .pc-tel svg{width:11px;height:11px;flex-shrink:0;fill:currentColor;opacity:0.5}
 .pc-notel{font-size:11px;color:var(--tx3);font-style:italic}
 
-/* ─ LOADING ─ */
+/* LOADING */
 .loading{
   display:flex;flex-direction:column;align-items:center;
-  gap:14px;padding:100px 20px;color:var(--tx2);font-size:11px;
+  gap:14px;padding:100px 20px;
+  color:var(--tx2);font-size:11px;
   font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;
 }
 .spin{
@@ -295,7 +317,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 }
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ─ FOOTER ─ */
+/* FOOTER */
 .footer{
   text-align:center;padding:28px 20px;font-size:10px;
   color:var(--tx3);letter-spacing:0.18em;text-transform:uppercase;
@@ -303,51 +325,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 }
 .footer span{color:var(--tx2)}
 
-/* ══════════════════════════════════════
-   RESPONSIVE — MOBILE
-   Manager strip hidden on desktop mobile
-   → replaced by .tc-mgr-mobile inside
-     .tc-info (always rendered in DOM)
-══════════════════════════════════════ */
 @media(max-width:680px){
-
-  /* Collapse grid columns: bar | logo | info+mobile-mgr | chevron */
-  .tc-head{
-    grid-template-columns:4px 56px 1fr 44px;
-    min-height:auto;
-  }
-
-  /* Hide desktop manager panel */
+  .tc-head{grid-template-columns:4px 60px 1fr 48px}
   .tc-mgr{display:none}
-
-  /* Show mobile manager row */
-  .tc-mgr-mobile{display:flex}
-
-  /* Slightly smaller logo */
-  .tc-logo{width:40px;height:40px}
-  .tc-logo-wrap{padding:8px 4px}
-
-  /* Tighter info padding */
-  .tc-info{padding:10px 12px;gap:5px}
-
-  /* Smaller team name */
-  .tc-name{font-size:1.15rem}
-
-  /* Player grid 2-col on mobile */
-  .pgrid{
-    grid-template-columns:repeat(2,1fr);
-    gap:9px;
-  }
-
+  .pgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px}
   .tc-roster{padding:12px}
-
-  /* Stats bar full width */
-  .stat{padding:14px 18px}
-  .stats-bar{width:100%;justify-content:stretch}
-  .stat{flex:1}
-
-  .hero-title{font-size:clamp(3.2rem,13vw,5rem)}
-  .wrap{padding:32px 14px 80px}
+  .stat{padding:14px 22px}
+  .stats-bar{width:100%}
 }
 </style>
 </head>
@@ -370,53 +354,79 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 </section>
 
 <div id="loading" class="loading"><div class="spin"></div>Loading squads…</div>
+
 <main class="wrap" id="root"></main>
+
 <footer class="footer"><span>Vaikom Football League</span> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; 2025</footer>
 
 <script>
+/*
+  IMAGE PATHS — keep this file at: vaikomfootballleague/index.html
+  Images go in: vaikomfootballleague/images/
+*/
+/*
+  IMAGE PATHS — keep this file at: vaikomfootballleague/index.html
+  Images go in: vaikomfootballleague/images/
+*/
 const TEAMS = {
-  "alpha-lions"   :{ logo:"images/alpha_lions_fc.jpeg",       manager:"Ashique",   mgrPhoto:"images/Managers/ashqiue.jpeg",  phone:"" },
-  "delta-united"  :{ logo:"images/delta_united.jpeg",         manager:"Achu",      mgrPhoto:"images/Managers/achu.jpeg",     phone:"" },
-  "emirate"       :{ logo:"images/fc_emirate.jpeg",           manager:"Zaad",      mgrPhoto:"images/Managers/zaad.jpeg",     phone:"" },
-  "fitwell"       :{ logo:"images/fc_fitwell.jpeg",           manager:"Jobin",     mgrPhoto:"images/Managers/jobin.jpeg",    phone:"" },
-  "golden-age"    :{ logo:"images/golden_age.jpeg",           manager:"Sreesanth", mgrPhoto:"images/Managers/sreesanth.jpeg",phone:"" },
-  "la-carrington" :{ logo:"images/la_carrington_vaikom.jpeg", manager:"Rakesh",    mgrPhoto:"images/Managers/rakesh.jpeg",   phone:"" },
-  "rivals"        :{ logo:"images/rivals_fc_vaikom.jpeg",     manager:"Udith",     mgrPhoto:"images/Managers/udith.jpeg",    phone:"" },
-  "riverside"     :{ logo:"images/riverside_fc.jpeg",         manager:"Jijin",     mgrPhoto:"images/Managers/jijin.jpeg",    phone:"" },
-  "titans"        :{ logo:"images/titans_fc_vaikom.jpeg",     manager:"Sreeraman", mgrPhoto:"images/Managers/sreeraman.jpeg",phone:"" },
-  "titian"        :{ logo:"images/titans_fc_vaikom.jpeg",     manager:"Sreeraman", mgrPhoto:"images/Managers/sreeraman.jpeg",phone:"" }
+  "alpha-lions"   : { logo:"images/alpha_lions_fc.jpeg",         manager:"Ashique",   mgrPhoto:"images/Managers/ashqiue.jpeg"  },
+  "delta-united"  : { logo:"images/delta_united.jpeg",           manager:"Achu",      mgrPhoto:"images/Managers/achu.jpeg"     },
+  "emirate"       : { logo:"images/fc_emirate.jpeg",             manager:"Zaad",      mgrPhoto:"images/Managers/zaad.jpeg"     },
+  "fitwell"       : { logo:"images/fc_fitwell.jpeg",             manager:"Jobin",     mgrPhoto:"images/Managers/jobin.jpeg"    },
+  "golden-age"    : { logo:"images/golden_age.jpeg",             manager:"Sreesanth", mgrPhoto:"images/Managers/sreesanth.jpeg"},
+  "la-carrington" : { logo:"images/la_carrington_vaikom.jpeg",   manager:"Rakesh",    mgrPhoto:"images/Managers/rakesh.jpeg"   },
+  "rivals"        : { logo:"images/rivals_fc_vaikom.jpeg",       manager:"Udith",     mgrPhoto:"images/Managers/udith.jpeg"    },
+  "riverside"     : { logo:"images/riverside_fc.jpeg",           manager:"Jijin",     mgrPhoto:"images/Managers/jijin.jpeg"    },
+  "titans"        : { logo:"images/titans_fc_vaikom.jpeg",       manager:"Sreeraman", mgrPhoto:"images/Managers/sreeraman.jpeg"},
+  "titian"        : { logo:"images/titans_fc_vaikom.jpeg",       manager:"Sreeraman", mgrPhoto:"images/Managers/sreeraman.jpeg"} // Added fallback for "Titian" spelling errors
 };
 
 const SHEET_ID = '1_AbPUa7BJFbox43ElPcdcuFoA3F3avbwOjn_ZsoFiZA';
 const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 
-const slug = n => !n ? '' : n.toString().toLowerCase().trim()
-  .replace(/\bfc\b/gi,'').replace(/\bvaikom\b/gi,'')
-  .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+/* ── slug: strips fc / vaikom / whitespace ── */
+const slug = n => {
+  if(!n) return '';
+  return n.toString().toLowerCase().trim()
+    .replace(/\bfc\b/gi,'')
+    .replace(/\bvaikom\b/gi,'')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+};
 
-function findCfg(teamName) {
+/* ── find best TEAMS key for a team name (robust fallback) ── */
+function findTeamCfg(teamName) {
   const s = slug(teamName);
-  if (TEAMS[s]) return TEAMS[s];
+  if(TEAMS[s]) return TEAMS[s];
+  
+  /* partial match: find any key that is a substring of s, or s is a substring of */
   const keys = Object.keys(TEAMS);
-  for (const k of keys) { if (s.includes(k) || k.includes(s)) return TEAMS[k]; }
-  const sw = s.split('-').filter(Boolean);
-  let best = null, score = 0;
-  for (const k of keys) {
-    const kw = k.split('-').filter(Boolean);
-    const sc = sw.filter(w => kw.includes(w)).length;
-    if (sc > score) { score = sc; best = TEAMS[k]; }
+  for(const k of keys){
+    if(s.includes(k) || k.includes(s)) return TEAMS[k];
   }
-  return score > 0 ? best : { logo:'', manager:'Head Coach', mgrPhoto:'', phone:'' };
+  
+  /* word overlap match */
+  const sWords = s.split('-').filter(Boolean);
+  let best = null, bestScore = 0;
+  for(const k of keys){
+    const kWords = k.split('-').filter(Boolean);
+    const score = sWords.filter(w => kWords.includes(w)).length;
+    if(score > bestScore){ bestScore = score; best = TEAMS[k]; }
+  }
+  return bestScore > 0 ? best : { logo: "", manager: "Head Coach", mgrPhoto: "" };
 }
 
 const initials = n => (n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
 const driveThumb = u => {
-  if (!u) return null;
+  if(!u) return null;
   const m = u.match(/(?:id=|file\/d\/)([\w-]+)/);
   return m ? `https://lh3.googleusercontent.com/d/${m[1]}` : u;
 };
+
 const phoneSVG = () =>
   `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>`;
+
 const personSVG = () =>
   `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="0.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
 
@@ -424,38 +434,30 @@ window.showPH = (el, abbr) => {
   el.innerHTML = `<div class="pc-ph">${personSVG()}<span>${abbr}</span></div>`;
 };
 
-/* Image with lowercase/uppercase Managers/ folder fallback */
-function tryBothCases(src) {
-  return src
-    .replace('/Managers/','/managers/')
-    .replace('/managers/','/Managers/');
+/* Try alternate path casing on image error, then fall back to initials */
+function imgWithFallbacks(src, alt, cls, textCls, fb) {
+  if (!src) return `<div class="${cls}"><span class="${textCls}">${fb}</span></div>`;
+  const alt1 = src.replace('/Managers/','/managers/').replace('/managers/','/Managers/');
+  return `<div class="${cls}">
+    <img src="${src}" alt="${alt}"
+      onerror="if(this.dataset.tried){this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<span class=\\'${textCls}\\'>${fb}</span>')}else{this.dataset.tried=1;this.src='${alt1}'}">
+  </div>`;
 }
 
-function imgTag(src, alt, onErr) {
-  const alt1 = tryBothCases(src);
-  return `<img src="${src}" alt="${alt}"
-    onerror="if(!this.dataset.t){this.dataset.t=1;this.src='${alt1}'}else{${onErr}}">`
-}
-
-/* ── Logo ── */
 function logoHTML(src, name) {
   const fb = initials(name);
-  if (!src) return `<div class="tc-logo"><span class="tc-logo-text">${fb}</span></div>`;
-  const onErr = `this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<span class="tc-logo-text">${fb}</span>')`;
-  return `<div class="tc-logo">${imgTag(src, name, onErr)}</div>`;
+  return imgWithFallbacks(src, name, 'tc-logo', 'tc-logo-text', fb);
 }
 
-/* ── Desktop manager strip ── */
-function mgrDesktopHTML(cfg) {
-  const n   = cfg.manager || 'Head Coach';
-  const fb  = initials(n);
-  const ph  = cfg.mgrPhoto || '';
-  const onErr = `this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<span class="mgr-av-text">${fb}</span>')`;
-  const avHTML = ph
-    ? `<div class="mgr-av">${imgTag(ph, n, onErr)}</div>`
-    : `<div class="mgr-av"><span class="mgr-av-text">${fb}</span></div>`;
+function mgrAvatarHTML(photo, name) {
+  const fb = initials(name);
+  return imgWithFallbacks(photo, name, 'mgr-av', 'mgr-av-text', fb);
+}
+
+function mgrHTML(cfg) {
+  const n = cfg.manager || 'Head Coach';
   return `<div class="tc-mgr">
-    ${avHTML}
+    ${mgrAvatarHTML(cfg.mgrPhoto||'', n)}
     <div>
       <div class="mgr-role">Manager</div>
       <div class="mgr-name">${n}</div>
@@ -464,25 +466,6 @@ function mgrDesktopHTML(cfg) {
   </div>`;
 }
 
-/* ── Mobile manager row (inside tc-info, always in DOM) ── */
-function mgrMobileHTML(cfg) {
-  const n  = cfg.manager || 'Head Coach';
-  const fb = initials(n);
-  const ph = cfg.mgrPhoto || '';
-  const onErr = `this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<span class="mgr-av-sm-text">${fb}</span>')`;
-  const avHTML = ph
-    ? `<div class="mgr-av-sm">${imgTag(ph, n, onErr)}</div>`
-    : `<div class="mgr-av-sm"><span class="mgr-av-sm-text">${fb}</span></div>`;
-  return `<div class="tc-mgr-mobile">
-    ${avHTML}
-    <div class="mgr-mobile-info">
-      <div class="mgr-mobile-label">Manager</div>
-      <div class="mgr-mobile-name">${n}</div>
-    </div>
-  </div>`;
-}
-
-/* ── Player card ── */
 function playerCardHTML(p) {
   const name     = (p['Name']||'').trim() || 'Unknown';
   const phone    = (p['Contact Number']||'').trim();
@@ -490,9 +473,11 @@ function playerCardHTML(p) {
   const photoSrc = driveThumb(p['Player Photo']);
   const isIcon   = (p['Icon Player']||'').trim().toLowerCase() === 'yes';
   const abbr     = initials(name);
+
   const photoHTML = photoSrc
     ? `<img src="${photoSrc}" alt="${name}" loading="lazy" onerror="showPH(this.parentNode,'${abbr}')">`
     : `<div class="pc-ph">${personSVG()}<span>${abbr}</span></div>`;
+
   return `<div class="pc${isIcon?' icon':''}">
     ${isIcon ? '<span class="pc-crown">★ Icon</span>' : ''}
     <div class="pc-img">${photoHTML}</div>
@@ -514,7 +499,7 @@ window.toggleCard = el => el.classList.toggle('open');
 function render(rows) {
   document.getElementById('loading').style.display = 'none';
   const root = document.getElementById('root');
-  root.innerHTML = '';
+  root.innerHTML = ''; // Clear previous content to prevent duplicating structure
 
   const map = {};
   rows.forEach(r => {
@@ -525,13 +510,17 @@ function render(rows) {
   const names = Object.keys(map).sort();
   let tp = 0, ti = 0;
   document.getElementById('sTeams').textContent = names.length;
-  root.insertAdjacentHTML('beforeend',`<div class="section-label">All Teams — Season 2025</div>`);
+
+  root.insertAdjacentHTML('beforeend',
+    `<div class="section-label">All Teams — Season 2025</div>`);
 
   names.forEach((teamName, idx) => {
-    const cfg  = findCfg(teamName);
+    const cfg  = findTeamCfg(teamName);
     const list = map[teamName];
+
     tp += list.length;
-    list.forEach(p => { if ((p['Icon Player']||'').toLowerCase()==='yes') ti++; });
+    list.forEach(p => { if((p['Icon Player']||'').toLowerCase()==='yes') ti++; });
+
     list.sort((a,b) => {
       const ia = (a['Icon Player']||'').toLowerCase()==='yes' ? 1 : 0;
       const ib = (b['Icon Player']||'').toLowerCase()==='yes' ? 1 : 0;
@@ -540,6 +529,7 @@ function render(rows) {
 
     const card = document.createElement('div');
     card.className = 'team-card' + (idx===0 ? ' open' : '');
+
     card.innerHTML = `
       <div class="tc-head" onclick="toggleCard(this.closest('.team-card'))">
         <div class="tc-bar"></div>
@@ -550,14 +540,17 @@ function render(rows) {
             <span class="tc-chip g">${list.length} Players</span>
             ${cfg.manager ? `<span class="tc-chip w">${cfg.manager}</span>` : ''}
           </div>
-          ${teamName !== 'Unassigned' ? mgrMobileHTML(cfg) : ''}
         </div>
-        ${teamName !== 'Unassigned' ? mgrDesktopHTML(cfg) : '<div></div>'}
+        ${teamName !== 'Unassigned' ? mgrHTML(cfg) : '<div></div>'}
         <div class="tc-chev-cell">
-          <div class="tc-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+          <div class="tc-chev">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
         </div>
       </div>
-      <div class="tc-roster"><div class="pgrid" id="g-${idx}"></div></div>`;
+      <div class="tc-roster">
+        <div class="pgrid" id="g-${idx}"></div>
+      </div>`;
 
     root.appendChild(card);
     const grid = card.querySelector('.pgrid');
@@ -571,9 +564,10 @@ function render(rows) {
 (async () => {
   try {
     const r = await fetch(CSV_URL);
-    if (!r.ok) throw new Error('Could not load squad data.');
+    if(!r.ok) throw new Error('Could not load squad data.');
     Papa.parse(await r.text(), {
-      header:true, skipEmptyLines:true,
+      header:true,
+      skipEmptyLines:true,
       complete:({data}) => render(data)
     });
   } catch(e) {
