@@ -97,6 +97,74 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   color:var(--tx3);margin-top:5px;display:block;font-family:'DM Mono',monospace;
 }
 
+/* ── STANDINGS BUTTON & MODAL ── */
+.standings-action {
+  margin-top: 40px;
+}
+.btn-standings {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 32px;
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none;
+  color: var(--bg); background: var(--gold);
+  border: 1px solid var(--gold); border-radius: 3px;
+  transition: all 0.3s ease; cursor: pointer;
+}
+.btn-standings:hover {
+  background: var(--gold2); box-shadow: 0 4px 20px rgba(201,168,76,0.2);
+  transform: translateY(-2px);
+}
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 100; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  backdrop-filter: blur(4px); padding: 20px;
+}
+.modal-overlay.show {
+  opacity: 1; pointer-events: auto;
+}
+.modal-content {
+  background: var(--bg1); border: 1px solid var(--line2); border-radius: 4px;
+  max-width: 440px; width: 100%; padding: 36px 32px; text-align: center;
+  transform: translateY(20px); transition: transform 0.3s ease;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+.modal-overlay.show .modal-content {
+  transform: translateY(0);
+}
+.modal-icon {
+  width: 48px; height: 48px; margin: 0 auto 20px;
+  border-radius: 50%; background: var(--gold-dim); border: 1px solid var(--gold-rim);
+  display: flex; align-items: center; justify-content: center; color: var(--gold);
+}
+.modal-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
+.modal-title {
+  font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700;
+  color: var(--white); margin-bottom: 12px;
+}
+.modal-text {
+  font-size: 14px; color: var(--tx2); line-height: 1.6; margin-bottom: 32px;
+}
+.modal-text strong { color: var(--tx); font-weight: 500; }
+.modal-actions {
+  display: flex; gap: 12px; justify-content: center;
+}
+.btn-cancel {
+  padding: 12px 24px; background: transparent; border: 1px solid var(--line);
+  color: var(--tx); font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase; border-radius: 3px;
+  cursor: pointer; transition: background 0.2s;
+}
+.btn-cancel:hover { background: var(--bg3); }
+.btn-proceed {
+  padding: 12px 24px; background: var(--gold-dim); border: 1px solid var(--gold-rim);
+  color: var(--gold2); font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase; border-radius: 3px;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-proceed:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+
+
 /* ── MAIN ── */
 .wrap{max-width:1280px;margin:0 auto;padding:56px 24px 100px}
 .section-label{
@@ -325,20 +393,53 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   <div class="hero-inner">
     <div class="pill"><span class="pill-dot"></span>Official Squad Registry · 2026</div>
     <h1 class="hero-title">Vaikom<span class="accent">Football</span>League</h1>
-    <p class="hero-sub">Kerala &nbsp;·&nbsp; India &nbsp;·&nbsp; Season 2026</p>
+    <p class="hero-sub">Vaikom  ·  Kerala  ·  Season 2026</p>
     <div class="stats-bar">
       <div class="stat"><span class="stat-n" id="sTeams">—</span><span class="stat-l">Teams</span></div>
       <div class="stat"><span class="stat-n" id="sPlayers">—</span><span class="stat-l">Players</span></div>
       <div class="stat"><span class="stat-n" id="sIcons">—</span><span class="stat-l">Icon Players</span></div>
     </div>
+    
+    <div class="standings-action">
+      <button class="btn-standings" onclick="openStandingsModal()">View League Standings <span>→</span></button>
+    </div>
+
   </div>
 </section>
 
 <div id="loading" class="loading"><div class="spin"></div>Loading squads…</div>
 <main class="wrap" id="root"></main>
-<footer class="footer"><span>Vaikom Football League</span> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; 2026</footer>
+<footer class="footer"><span>Vaikom Football League</span>  ·  All Rights Reserved  ·  2026</footer>
+
+<div id="renderWarning" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
+    <h3 class="modal-title">Heads Up</h3>
+    <p class="modal-text">
+      The League Standings application is securely hosted on <strong>Render</strong>. Because it is a free instance, it may take <strong>15–30 seconds to wake up</strong> upon the first click. Please be patient while the server loads.
+    </p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeStandingsModal()">Cancel</button>
+      <button class="btn-proceed" onclick="proceedToStandings()">Proceed</button>
+    </div>
+  </div>
+</div>
 
 <script>
+/* ── MODAL LOGIC ── */
+function openStandingsModal() {
+  document.getElementById('renderWarning').classList.add('show');
+}
+function closeStandingsModal() {
+  document.getElementById('renderWarning').classList.remove('show');
+}
+function proceedToStandings() {
+  window.open('https://vfl-league-app.onrender.com/', '_blank');
+  closeStandingsModal();
+}
+
 const TEAMS = {
   "alpha-lions"   :{ logo:"images/alpha_lions_fc.jpeg",         manager:"Ashique",   mgrPhoto:"images/Managers/ashqiue.jpeg",  phone:"" },
   "delta-united"  :{ logo:"images/delta_united.jpeg",           manager:"Achu",      mgrPhoto:"images/Managers/achu.jpeg",     phone:"" },
