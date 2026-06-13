@@ -57,7 +57,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
   background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);
   pointer-events:none;
 }
-.hero-inner{position:relative;z-index:1;max-width:800px}
+.hero-inner{position:relative;z-index:1;max-width:800px; width: 100%;}
 .pill{
   display:inline-flex;align-items:center;gap:8px;
   font-family:'DM Mono',monospace;font-size:10px;
@@ -365,22 +365,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 }
 .footer span{color:var(--tx2)}
 
-/* ── RESPONSIVE ── */
+/* ── RESPONSIVE OVERHAUL ── */
 @media(max-width:680px){
+  /* Reduce enormous fonts that stretch viewport */
+  .hero-title{font-size:clamp(2.5rem,13vw,4rem)}
+  
+  /* Stack the stats bar vertically to prevent squishing/overflow */
+  .stats-bar{width:100%; flex-direction:column;}
+  .stat{padding:16px; border-right:none; border-bottom:1px solid var(--line);}
+  .stat:last-child{border-bottom:none;}
+  .stat-n{font-size: 2.2rem;}
+  
+  /* Make standings button full width on small screens */
+  .btn-standings { padding: 14px 24px; width: 100%; justify-content: center; }
+
   /* 3 cols: bar | logo | info | chevron */
-  .tc-head{grid-template-columns:4px 56px 1fr 44px}
+  .tc-head{grid-template-columns:4px 56px 1fr 44px; min-height: 70px;}
   .tc-logo{width:42px;height:42px}
   .tc-logo-wrap{padding:8px 4px}
   .tc-info{padding:10px 12px;gap:5px}
   .tc-name{font-size:1.15rem}
-  /* 2 columns on mobile */
-  .pgrid{grid-template-columns:repeat(2,1fr);gap:9px}
-  .tc-roster{padding:12px}
-  .stat{padding:14px 18px}
-  .stats-bar{width:100%}
-  .stat{flex:1}
+  
+  /* Roster fluid grid (Allows 2 columns on most phones, drops to 1 on very small screens) */
+  .pgrid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));gap:9px}
+  .tc-roster{padding:16px 10px}
+  
   .wrap{padding:32px 14px 80px}
-  .hero-title{font-size:clamp(3.2rem,13vw,5rem)}
+  
+  /* Modal fixes for mobile */
+  .modal-content{padding: 24px 16px;}
+  .modal-actions{flex-direction:column;}
+  .btn-cancel, .btn-proceed{width:100%; text-align:center;}
 }
 </style>
 </head>
